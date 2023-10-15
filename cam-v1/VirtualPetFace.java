@@ -25,9 +25,11 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.Timer;
@@ -38,6 +40,14 @@ public class VirtualPetFace extends JFrame implements ActionListener{
 
     private final int WIDTH = 400;
     private final int HEIGHT = 400;
+    private JProgressBar hungerBar;
+    private JProgressBar energyBar;
+    private JButton feedButton;
+    private boolean feedButtonPressed;
+    private JButton exerciseButton;
+    private boolean exerciseButtonPressed;
+    private JButton sleepButton;
+    private boolean sleepButtonPressed;
     private ImagePanel imagePanel;
     private JTextPane textArea;
     private String base;
@@ -118,15 +128,105 @@ public class VirtualPetFace extends JFrame implements ActionListener{
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 2;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 4;
         c.ipady = 20;
         contentPane.add(scroll, c);
+
+
+        hungerBar = new JProgressBar();
+        hungerBar.setMinimum(0); // Minimum value for the progress bar
+        hungerBar.setMaximum(10); // Maximum value for the progress bar
+        hungerBar.setValue(0); // Initial value for the progress bar
+        hungerBar.setStringPainted(true); // Display the current value as text
+        hungerBar.setString("Hunger"); // Text to display above the progress bar
+        GridBagConstraints gbcHungerBar = new GridBagConstraints();
+
+
+        gbcHungerBar.fill = GridBagConstraints.HORIZONTAL;
+        gbcHungerBar.gridwidth = 2;
+        gbcHungerBar.gridx = 0;
+        gbcHungerBar.gridy = 2; // Adjust the row number according to your layout
+        contentPane.add(hungerBar, gbcHungerBar);
+        
+
+        energyBar = new JProgressBar();
+        energyBar.setMinimum(0); // Minimum value for the progress bar
+        energyBar.setMaximum(10); // Maximum value for the progress bar
+        energyBar.setValue(0); // Initial value for the progress bar
+        energyBar.setStringPainted(true); // Display the current value as text
+        energyBar.setString("Energy"); // Text to display above the progress bar
+        GridBagConstraints gcEnergyBar = new GridBagConstraints();
+
+
+        gcEnergyBar.fill = GridBagConstraints.HORIZONTAL;
+        gcEnergyBar.gridwidth = 2;
+        gcEnergyBar.gridx = 0;
+        gcEnergyBar.gridy = 3; // Adjust the row number according to your layout
+        contentPane.add(energyBar, gcEnergyBar);
+
+
+        feedButton = new JButton("Feed");
+        feedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                feedButtonPressed = true;
+            }
+        });
+
+        Dimension buttonSize = new Dimension(200, 40);
+        feedButton.setPreferredSize(buttonSize);
+        GridBagConstraints gcFeedButton = new GridBagConstraints();
+        gcFeedButton.gridwidth = 2;
+        gcFeedButton.gridx = 0;
+        gcFeedButton.gridy = 5;
+        gcFeedButton.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(feedButton, gcFeedButton);
+
+        exerciseButton = new JButton("Exercize");
+        exerciseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exerciseButtonPressed = true;
+            }
+        });
+
+        exerciseButton.setPreferredSize(buttonSize);
+        GridBagConstraints gcExerciseButton = new GridBagConstraints();
+        gcExerciseButton.gridwidth = 2;
+        gcExerciseButton.gridx = 0;
+        gcExerciseButton.gridy = 6;
+        gcExerciseButton.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(exerciseButton, gcExerciseButton);
     
         setLocationRelativeTo(null);
         setVisible(true);
         //toFront();
         setAlwaysOnTop(true);
         setAlwaysOnTop(false);
+    }
+
+    public boolean checkFeedButton() {
+        if (feedButtonPressed) {
+            feedButtonPressed = false;
+            return true;
+        }
+        return feedButtonPressed;
+    }
+
+    public boolean checkExerciseButton() {
+        if (exerciseButtonPressed) {
+            exerciseButtonPressed = false;
+            return true;
+        }
+        return exerciseButtonPressed;
+    }
+
+    public void updateHungerBar(int hunger) {
+        hungerBar.setValue(hunger);
+    }
+
+    public void updateEnergyBar(int energy) {
+        energyBar.setValue(energy);
     }
     
     private void setBackground() {
@@ -223,6 +323,17 @@ public class VirtualPetFace extends JFrame implements ActionListener{
             return true;
         }
     }
+
+    // public class StatPanel {
+
+    //     public StatPanel() {
+
+    //     }
+
+    //     public void paintBar(Color color, int x, int y, int width, int height, double progress) {
+
+    //     }
+    // }
 }
 
  

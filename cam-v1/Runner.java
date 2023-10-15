@@ -1,3 +1,6 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -6,23 +9,23 @@ public class Runner {
     new Runner();
   }
 
-  enum activities {
-    exercise,
-    feed
-  }
-
   public Runner() {
     // Main
     VirtualPet p = new VirtualPet();
-
     // Tasks
-    p.exercise();
-    wait(1000);
-    p.feed();
-    wait(1000);
-    p.exercise();
-    String ans = getResponse("How was your day?");
-    System.out.println(ans);
+    Timer timer = new Timer();
+    int period = 200;
+
+    timer.scheduleAtFixedRate(new TimerTask() {
+      public void run() {
+        if (p.face.checkFeedButton()) {
+          p.feed();
+        }
+        if (p.face.checkExerciseButton()) {
+          p.exercise();
+        }
+      }
+    }, period, period);
   }
 
   public String getResponse(String prompt) {

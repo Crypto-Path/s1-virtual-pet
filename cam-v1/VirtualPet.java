@@ -5,9 +5,9 @@
  */
 public class VirtualPet {
     
-    VirtualPetFace face;
-    private int hunger = 0;   // how hungry the pet is.
-    private int tiredness = 0;
+    public VirtualPetFace face;
+    private int hunger = 10;   // how hungry the pet is.
+    private int energy = 10;
     
     // constructor
     public VirtualPet() {
@@ -17,30 +17,43 @@ public class VirtualPet {
     }
     
     public void feed() {
+        hunger += 2;
         if (hunger > 10) {
-            hunger = hunger - 10;
-        } else {
-            hunger = 0;
+            hunger = 10;
         }
         face.setMessage("Yum, thanks");
         face.setImage("normal");
+        updateBars();
+        setStatus();
     }
     
     public void exercise() {
-        hunger = hunger + 3;
-        tiredness += 2;
+        hunger -= 3;
+        energy -= 2;
         face.setMessage("1, 2, 3, jump.  Whew.");
         face.setImage("tired");
-        if (tiredness > 4) {
-            face.setMessage("That was great.");
-            face.setImage("ecstatic");
-            
-        }
+        updateBars();
     }
     
     public void sleep() {
         hunger = hunger + 1;
         face.setImage("asleep");
+    }
+
+    public void updateBars() {
+        face.updateHungerBar(this.hunger);
+        face.updateEnergyBar(this.energy);
+    }
+
+    public void setStatus() {
+        if (energy > 4) {
+            face.setMessage("That was great.");
+            face.setImage("ecstatic");
+        }
+        if (hunger < 2) {
+            face.setMessage("That was great.");
+            face.setImage("starving");
+        }
     }
 
 } // end Virtual Pet
